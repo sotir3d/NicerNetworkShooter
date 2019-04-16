@@ -1,31 +1,55 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class PlayerMovement : NetworkBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed;
+    public float speed;
 
-    private Rigidbody2D _rigidBody2D;
+    public GameObject bulletPrefab;
+    public Transform spawnPointW;
+    public Transform spawnPointD;
+    public Transform spawnPointA;
+    public Transform spawnPointS;
 
-    private void Start()
+    private Rigidbody2D rb2d;       
+
+    void Start()
     {
-        _rigidBody2D = GetComponent<Rigidbody2D>();
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (isLocalPlayer)
+        if (Input.GetKey(KeyCode.W))
         {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-
-            //Vector3 movement = new Vector3(horizontal, vertical, 0f);
-
-            //transform.position += movement * Time.deltaTime * moveSpeed;
-
-            _rigidBody2D.velocity = new Vector3(horizontal, vertical, 0f) * Time.fixedDeltaTime * moveSpeed;
+            Instantiate(bulletPrefab, spawnPointW.position, Quaternion.identity);
         }
+
+        else if (Input.GetKey(KeyCode.D))
+        {
+            Instantiate(bulletPrefab, spawnPointD.position, Quaternion.identity);
+        }
+
+        else if (Input.GetKey(KeyCode.A))
+        {
+            Instantiate(bulletPrefab, spawnPointA.position, Quaternion.identity);
+        }
+
+        else if (Input.GetKey(KeyCode.S))
+        {
+            Instantiate(bulletPrefab, spawnPointS.position, Quaternion.identity);
+        }
+    }
+
+    void FixedUpdate()
+    {        
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        
+        float moveVertical = Input.GetAxis("Vertical");
+        
+        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        
+        rb2d.AddForce(movement * speed);
     }
 }
