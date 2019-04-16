@@ -14,4 +14,13 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.CompareTag ("Tilemap"))
+        {
+            Debug.Log("Getroffen");
+            Destroy(gameObject);
+        }
+    }
 }
