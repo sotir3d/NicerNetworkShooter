@@ -6,12 +6,17 @@ using UnityEngine.Networking;
 public class PlayerMovement : NetworkBehaviour
 {
     public float speed;
+    public float bulletSpeed;
 
     public GameObject bulletPrefab;
     public GameObject spawnPointW;
     public GameObject spawnPointD;
     public GameObject spawnPointA;
     public GameObject spawnPointS;
+    public GameObject spawnPointQ;
+    public GameObject spawnPointE;
+    public GameObject spawnPointC;
+    public GameObject spawnPointY;
 
     private Rigidbody2D rb2d; 
     
@@ -20,7 +25,11 @@ public class PlayerMovement : NetworkBehaviour
         up,
         down,
         left,
-        right
+        right,
+        upright,
+        upleft,
+        downright,
+        downleft
     }
 
     void Start()
@@ -39,20 +48,33 @@ public class PlayerMovement : NetworkBehaviour
 
             else if (Input.GetKeyDown(KeyCode.D))
             {
-
                 CmdFire(FireDirection.right);
             }
 
             else if (Input.GetKeyDown(KeyCode.A))
             {
-
                 CmdFire(FireDirection.left);
             }
 
             else if (Input.GetKeyDown(KeyCode.S))
             {
-
                 CmdFire(FireDirection.down);
+            }
+            else if( Input.GetKeyDown(KeyCode.E))
+            {
+                CmdFire(FireDirection.upright);
+            }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                CmdFire(FireDirection.upleft);
+            }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                CmdFire(FireDirection.downright);
+            }
+            else if (Input.GetKeyDown(KeyCode.Y))
+            {
+                CmdFire(FireDirection.downleft);
             }
         }
     }
@@ -66,25 +88,49 @@ public class PlayerMovement : NetworkBehaviour
         {
             bullet = Instantiate(bulletPrefab, spawnPointW.transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * 10f;
+            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * bulletSpeed;
         }
-        else if(direction == FireDirection.down)
+        else if (direction == FireDirection.down)
         {
             bullet = Instantiate(bulletPrefab, spawnPointS.transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * -10f;
+            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * -bulletSpeed;
         }
-        else if(direction == FireDirection.left)
+        else if (direction == FireDirection.left)
         {
             bullet = Instantiate(bulletPrefab, spawnPointA.transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.right * -10f;
+            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.right * -bulletSpeed;
         }
-        else if(direction == FireDirection.right)
+        else if (direction == FireDirection.right)
         {
             bullet = Instantiate(bulletPrefab, spawnPointD.transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.right * 10f;
+            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.right * bulletSpeed;
+        }
+        else if (direction == FireDirection.upright)
+        {
+            bullet = Instantiate(bulletPrefab, spawnPointE.transform.position, Quaternion.identity);
+
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(1,1) * bulletSpeed;
+        }
+        else if (direction == FireDirection.upleft)
+        {
+            bullet = Instantiate(bulletPrefab, spawnPointQ.transform.position, Quaternion.identity);
+
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-1, 1) * bulletSpeed;
+        }
+        else if (direction == FireDirection.downright)
+        {
+            bullet = Instantiate(bulletPrefab, spawnPointC.transform.position, Quaternion.identity);
+
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(1, -1) * bulletSpeed;
+        }
+        else if (direction == FireDirection.downleft)
+        {
+            bullet = Instantiate(bulletPrefab, spawnPointY.transform.position, Quaternion.identity);
+
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-1, -1) * bulletSpeed;
         }
 
         NetworkServer.Spawn(bullet);
