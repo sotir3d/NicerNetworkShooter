@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9f3003d2aa4ee34faa4db244afbd780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  bulletSpeed: 10
+  moveSpeed: 50
+  bulletSpeed: 60
   bulletPrefab: {fileID: 6156239039159345274, guid: 34f57da82867ee34ba9e03800c32ee95,
     type: 3}
   spawnPointW: {fileID: 215560448097588111}
@@ -215,8 +215,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 8
-  m_AngularDrag: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
