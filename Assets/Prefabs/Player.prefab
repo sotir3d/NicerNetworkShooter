@@ -163,10 +163,10 @@ MonoBehaviour:
   speed: 15
   bulletPrefab: {fileID: 6156239039159345274, guid: 34f57da82867ee34ba9e03800c32ee95,
     type: 3}
-  spawnPointW: {fileID: 215560448097588096}
-  spawnPointD: {fileID: 215560448311124063}
-  spawnPointA: {fileID: 215560448574940049}
-  spawnPointS: {fileID: 215560446867043689}
+  spawnPointW: {fileID: 215560448097588111}
+  spawnPointD: {fileID: 215560448311124062}
+  spawnPointA: {fileID: 215560448574940048}
+  spawnPointS: {fileID: 215560446867043688}
 --- !u!61 &215560448224100283
 BoxCollider2D:
   m_ObjectHideFlags: 0

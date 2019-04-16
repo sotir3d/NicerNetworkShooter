@@ -8,12 +8,20 @@ public class PlayerMovement : NetworkBehaviour
     public float speed;
 
     public GameObject bulletPrefab;
-    public Transform spawnPointW;
-    public Transform spawnPointD;
-    public Transform spawnPointA;
-    public Transform spawnPointS;
+    public GameObject spawnPointW;
+    public GameObject spawnPointD;
+    public GameObject spawnPointA;
+    public GameObject spawnPointS;
 
-    private Rigidbody2D rb2d;       
+    private Rigidbody2D rb2d; 
+    
+    enum FireDirection
+    {
+        up,
+        down,
+        left,
+        right
+    }
 
     void Start()
     {
@@ -24,26 +32,62 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W))
             {
-                Instantiate(bulletPrefab, spawnPointW.position, Quaternion.identity);
+                CmdFire(FireDirection.up);
             }
 
-            else if (Input.GetKey(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.D))
             {
-                Instantiate(bulletPrefab, spawnPointD.position, Quaternion.identity);
+
+                CmdFire(FireDirection.right);
             }
 
-            else if (Input.GetKey(KeyCode.A))
+            else if (Input.GetKeyDown(KeyCode.A))
             {
-                Instantiate(bulletPrefab, spawnPointA.position, Quaternion.identity);
+
+                CmdFire(FireDirection.left);
             }
 
-            else if (Input.GetKey(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.S))
             {
-                Instantiate(bulletPrefab, spawnPointS.position, Quaternion.identity);
+
+                CmdFire(FireDirection.down);
             }
         }
+    }
+
+    [Command]
+    void CmdFire(FireDirection direction)
+    {
+        GameObject bullet = null;
+
+        if (direction == FireDirection.up)
+        {
+            bullet = Instantiate(bulletPrefab, spawnPointW.transform.position, Quaternion.identity);
+
+            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * 10f;
+        }
+        else if(direction == FireDirection.down)
+        {
+            bullet = Instantiate(bulletPrefab, spawnPointS.transform.position, Quaternion.identity);
+
+            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * -10f;
+        }
+        else if(direction == FireDirection.left)
+        {
+            bullet = Instantiate(bulletPrefab, spawnPointA.transform.position, Quaternion.identity);
+
+            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.right * -10f;
+        }
+        else if(direction == FireDirection.right)
+        {
+            bullet = Instantiate(bulletPrefab, spawnPointD.transform.position, Quaternion.identity);
+
+            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.right * 10f;
+        }
+
+        NetworkServer.Spawn(bullet);
     }
 
     void FixedUpdate()
