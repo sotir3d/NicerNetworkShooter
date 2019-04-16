@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     public float speed;
 
@@ -21,35 +22,41 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (isLocalPlayer)
         {
-            Instantiate(bulletPrefab, spawnPointW.position, Quaternion.identity);
-        }
+            if (Input.GetKey(KeyCode.W))
+            {
+                Instantiate(bulletPrefab, spawnPointW.position, Quaternion.identity);
+            }
 
-        else if (Input.GetKey(KeyCode.D))
-        {
-            Instantiate(bulletPrefab, spawnPointD.position, Quaternion.identity);
-        }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                Instantiate(bulletPrefab, spawnPointD.position, Quaternion.identity);
+            }
 
-        else if (Input.GetKey(KeyCode.A))
-        {
-            Instantiate(bulletPrefab, spawnPointA.position, Quaternion.identity);
-        }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                Instantiate(bulletPrefab, spawnPointA.position, Quaternion.identity);
+            }
 
-        else if (Input.GetKey(KeyCode.S))
-        {
-            Instantiate(bulletPrefab, spawnPointS.position, Quaternion.identity);
+            else if (Input.GetKey(KeyCode.S))
+            {
+                Instantiate(bulletPrefab, spawnPointS.position, Quaternion.identity);
+            }
         }
     }
 
     void FixedUpdate()
-    {        
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        
-        float moveVertical = Input.GetAxis("Vertical");
-        
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-        
-        rb2d.AddForce(movement * speed);
+    {
+        if (isLocalPlayer)
+        {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+
+            float moveVertical = Input.GetAxis("Vertical");
+
+            Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+
+            rb2d.AddForce(movement * speed);
+        }
     }
 }
