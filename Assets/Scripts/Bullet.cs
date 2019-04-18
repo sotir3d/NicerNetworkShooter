@@ -22,5 +22,13 @@ public class Bullet : MonoBehaviour
             Debug.Log("Getroffen");
             Destroy(gameObject);
         }
+
+        GameObject hit = coll.gameObject;
+        PlayerHealth health = hit.GetComponent<PlayerHealth>();
+        if(health != null)
+        {
+            health.TakeDamage(5);
+        }
+    
     }
 }
