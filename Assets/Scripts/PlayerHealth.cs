@@ -19,8 +19,8 @@ public class PlayerHealth : NetworkBehaviour
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
-            currentHealth = 0;
-            Debug.Log("Dead");
+            currentHealth = maxHealth;
+            GetComponent<PlayerManager>().Respawn();
         }
 
     }

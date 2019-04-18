@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
         if(health != null)
         {
             health.TakeDamage(5);
+            DestroyBullet();
         }
-    
     }
 }

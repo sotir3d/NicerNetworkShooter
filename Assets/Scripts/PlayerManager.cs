@@ -4,28 +4,57 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Networking;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : NetworkBehaviour
 {
     int playerHealth = 1;
     int deaths = 0;
+    private NetworkStartPosition[] _startPositions;
 
     public TextMeshProUGUI deathCounter;
 
-    void OnCollisionEnter2D(Collision2D coll)
+    private void Start()
     {
-        
-        
-            if (coll.gameObject.CompareTag("Bullet"))
-            {
-                playerHealth--;
-                Invoke("Respawn", 2f);
-            }
-        
+        if (isLocalPlayer)
+        {
+            _startPositions = FindObjectsOfType<NetworkStartPosition>();
+        }
     }
 
-    void Respawn()
+    public void Respawn()
     {
-        deaths++;
-        deathCounter.text = "Deaths: " + deaths;
+        RpcRespawn();
     }
+    
+    [ClientRpc]
+    void RpcRespawn()
+    {
+        if (isLocalPlayer)
+        {
+            if (_startPositions != null && _startPositions.Length > 0)
+            {
+                transform.position = _startPositions[Random.Range(0, _startPositions.Length)].transform.position;
+            }
+        }
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        GetComponent<SpriteRenderer>().color = Color.red;
+    }
+    
+//    void OnCollisionEnter2D(Collision2D coll)
+//    {
+//            if (coll.gameObject.CompareTag("Bullet"))
+//            {
+//                playerHealth--;
+//                Invoke("Respawn", 2f);
+//            }
+//    }
+
+//    void Respawn()
+//    {
+//        deaths++;
+//        deathCounter.text = "Deaths: " + deaths;
+//    }
 }
