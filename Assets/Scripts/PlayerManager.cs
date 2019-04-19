@@ -16,7 +16,6 @@ public class PlayerManager : NetworkBehaviour
         if (isLocalPlayer)
         {
             _startPositions = FindObjectsOfType<NetworkStartPosition>();
-            GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<LocalPlayer>().localPlayer = gameObject;
         }
     }
 
@@ -41,6 +40,7 @@ public class PlayerManager : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
         GetComponent<SpriteRenderer>().color = Color.blue;
+        GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<LocalPlayer>().localPlayer = gameObject;
     }
     
 //    void OnCollisionEnter2D(Collision2D coll)
