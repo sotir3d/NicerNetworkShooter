@@ -11,11 +11,8 @@ public class PlayerManager : NetworkBehaviour
     
     private NetworkStartPosition[] _startPositions;
 
-<<<<<<< HEAD
-    public Text deathCounter;
+    public Text deathCounterText;
 
-=======
->>>>>>> 764074d97aff6b4aaa80e59a16b9774f08abeec8
     private void Start()
     {
         if (isLocalPlayer)
@@ -60,6 +57,6 @@ public class PlayerManager : NetworkBehaviour
 //    void Respawn()
 //    {
 //        deaths++;
-//        deathCounter.text = "Deaths: " + deaths;
+//        deathCounterText.text = "Deaths: " + deaths;
 //    }
 }

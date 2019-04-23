@@ -7,6 +7,7 @@ public class PlayerMovement : NetworkBehaviour
 {
     public float moveSpeed;
     public float bulletSpeed;
+    private AudioSource mAudioSrc;
 
     public GameObject bulletPrefab;
     public GameObject spawnPointW;
@@ -40,6 +41,8 @@ public class PlayerMovement : NetworkBehaviour
         {
             FindObjectOfType<CameraFollow>().target = transform;
         }
+
+        mAudioSrc = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -49,37 +52,45 @@ public class PlayerMovement : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.W))
             {
                 CmdFire(FireDirection.up);
+                mAudioSrc.Play();
             }
 
             else if (Input.GetKeyDown(KeyCode.D))
             {
                 CmdFire(FireDirection.right);
+                mAudioSrc.Play();
             }
 
             else if (Input.GetKeyDown(KeyCode.A))
             {
                 CmdFire(FireDirection.left);
+                mAudioSrc.Play();
             }
 
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 CmdFire(FireDirection.down);
+                mAudioSrc.Play();
             }
             else if( Input.GetKeyDown(KeyCode.E))
             {
                 CmdFire(FireDirection.upright);
+                mAudioSrc.Play();
             }
             else if (Input.GetKeyDown(KeyCode.Q))
             {
                 CmdFire(FireDirection.upleft);
+                mAudioSrc.Play();
             }
             else if (Input.GetKeyDown(KeyCode.C))
             {
                 CmdFire(FireDirection.downright);
+                mAudioSrc.Play();
             }
             else if (Input.GetKeyDown(KeyCode.Y))
             {
                 CmdFire(FireDirection.downleft);
+                mAudioSrc.Play();
             }
         }
     }
@@ -117,25 +128,25 @@ public class PlayerMovement : NetworkBehaviour
         {
             bullet = Instantiate(bulletPrefab, spawnPointE.transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(1,1) * bulletSpeed * Time.deltaTime;
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(1,1).normalized * bulletSpeed * Time.deltaTime;
         }
         else if (direction == FireDirection.upleft)
         {
             bullet = Instantiate(bulletPrefab, spawnPointQ.transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-1, 1) * bulletSpeed * Time.deltaTime;
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-1, 1).normalized * bulletSpeed * Time.deltaTime;
         }
         else if (direction == FireDirection.downright)
         {
             bullet = Instantiate(bulletPrefab, spawnPointC.transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(1, -1) * bulletSpeed * Time.deltaTime;
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(1, -1).normalized * bulletSpeed * Time.deltaTime;
         }
         else if (direction == FireDirection.downleft)
         {
             bullet = Instantiate(bulletPrefab, spawnPointY.transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-1, -1) * bulletSpeed * Time.deltaTime;
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-1, -1).normalized * bulletSpeed * Time.deltaTime;
         }
 
         NetworkServer.Spawn(bullet);

@@ -12,6 +12,8 @@ public class PlayerHealth : NetworkBehaviour
 
     private PlayerManager _playerManager;
 
+    public GameObject particleDestruction;
+
     private void Start()
     {
         _playerManager = GetComponent<PlayerManager>();
@@ -23,15 +25,25 @@ public class PlayerHealth : NetworkBehaviour
         {
             return;
         }
+
         currentHealth -= amount;
+
         if (currentHealth <= 0)
         {
             currentHealth = maxHealth;
+            CmdParticleSpawn();
             _playerManager.deathCounter++;
-            _playerManager.Respawn();
+            _playerManager.Respawn();            
         }
-
     }
+
+    [Command]
+    void CmdParticleSpawn()
+    {
+        GameObject particleEffect = Instantiate(particleDestruction, transform.position, Quaternion.identity);
+        NetworkServer.Spawn(particleEffect);
+    }
+
     void OnChangeHealth(int health)
     {
         healthbar.sizeDelta = new Vector2(health / 100.0f * 0.36f, healthbar.sizeDelta.y);
