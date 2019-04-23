@@ -35,6 +35,11 @@ public class PlayerMovement : NetworkBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+
+        if (isLocalPlayer)
+        {
+            FindObjectOfType<CameraFollow>().target = transform;
+        }
     }
 
     private void Update()

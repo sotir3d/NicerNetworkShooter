@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class PlayerManager : NetworkBehaviour
@@ -10,7 +10,7 @@ public class PlayerManager : NetworkBehaviour
     int deaths = 0;
     private NetworkStartPosition[] _startPositions;
 
-    public TextMeshProUGUI deathCounter;
+    public Text deathCounter;
 
     private void Start()
     {
