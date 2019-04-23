@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 public class PlayerManager : NetworkBehaviour
 {
-    int playerHealth = 1;
-    int deaths = 0;
+    public int deathCounter = 0;
+    
     private NetworkStartPosition[] _startPositions;
 
+<<<<<<< HEAD
     public Text deathCounter;
 
+=======
+>>>>>>> 764074d97aff6b4aaa80e59a16b9774f08abeec8
     private void Start()
     {
         if (isLocalPlayer)
@@ -40,7 +44,8 @@ public class PlayerManager : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        GetComponent<SpriteRenderer>().color = Color.red;
+        GetComponent<SpriteRenderer>().color = Color.blue;
+        GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<LocalPlayer>().localPlayer = gameObject;
     }
     
 //    void OnCollisionEnter2D(Collision2D coll)

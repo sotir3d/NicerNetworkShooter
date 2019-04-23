@@ -10,6 +10,13 @@ public class PlayerHealth : NetworkBehaviour
     [SyncVar(hook = "OnChangeHealth")] public int currentHealth = maxHealth;
     public RectTransform healthbar;
 
+    private PlayerManager _playerManager;
+
+    private void Start()
+    {
+        _playerManager = GetComponent<PlayerManager>();
+    }
+
     public void TakeDamage(int amount)
     {
         if (!isServer)
@@ -20,7 +27,8 @@ public class PlayerHealth : NetworkBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = maxHealth;
-            GetComponent<PlayerManager>().Respawn();
+            _playerManager.deathCounter++;
+            _playerManager.Respawn();
         }
 
     }
