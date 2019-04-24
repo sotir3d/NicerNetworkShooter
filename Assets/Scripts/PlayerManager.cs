@@ -7,8 +7,7 @@ using UnityEngine.Serialization;
 
 public class PlayerManager : NetworkBehaviour
 {
-    public int deathCounter = 0;
-    
+    public int deathCounter;
     private NetworkStartPosition[] _startPositions;
 
     public Text deathCounterText;
@@ -25,7 +24,7 @@ public class PlayerManager : NetworkBehaviour
     {
         RpcRespawn();
     }
-    
+
     [ClientRpc]
     void RpcRespawn()
     {
@@ -34,6 +33,7 @@ public class PlayerManager : NetworkBehaviour
             if (_startPositions != null && _startPositions.Length > 0)
             {
                 transform.position = _startPositions[Random.Range(0, _startPositions.Length)].transform.position;
+                deathCounter++;
             }
         }
     }
@@ -41,22 +41,6 @@ public class PlayerManager : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        GetComponent<SpriteRenderer>().color = Color.blue;
-        GameObject.FindGameObjectWithTag("LocalPlayer").GetComponent<LocalPlayer>().localPlayer = gameObject;
+        GetComponent<SpriteRenderer>().color = Color.black;
     }
-    
-//    void OnCollisionEnter2D(Collision2D coll)
-//    {
-//            if (coll.gameObject.CompareTag("Bullet"))
-//            {
-//                playerHealth--;
-//                Invoke("Respawn", 2f);
-//            }
-//    }
-
-//    void Respawn()
-//    {
-//        deaths++;
-//        deathCounterText.text = "Deaths: " + deaths;
-//    }
 }

@@ -30,10 +30,12 @@ public class PlayerHealth : NetworkBehaviour
 
         if (currentHealth <= 0)
         {
+            if (!isLocalPlayer)
+                _playerManager.deathCounter++;
+            
             currentHealth = maxHealth;
             CmdParticleSpawn();
-            _playerManager.deathCounter++;
-            _playerManager.Respawn();            
+            _playerManager.Respawn();
         }
     }
 

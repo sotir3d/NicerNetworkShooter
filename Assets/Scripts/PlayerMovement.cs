@@ -37,11 +37,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
 
-        if (isLocalPlayer)
-        {
-            FindObjectOfType<CameraFollow>().target = transform;
-        }
-
         mAudioSrc = GetComponent<AudioSource>();
     }
 
