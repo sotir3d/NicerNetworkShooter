@@ -19,8 +19,8 @@ public class PlayerMovement : NetworkBehaviour
     public GameObject spawnPointC;
     public GameObject spawnPointY;
 
-    private Rigidbody2D rb2d; 
-    
+    private Rigidbody2D rb2d;
+
     enum FireDirection
     {
         up,
@@ -67,7 +67,7 @@ public class PlayerMovement : NetworkBehaviour
                 CmdFire(FireDirection.down);
                 mAudioSrc.Play();
             }
-            else if( Input.GetKeyDown(KeyCode.E))
+            else if (Input.GetKeyDown(KeyCode.E))
             {
                 CmdFire(FireDirection.upright);
                 mAudioSrc.Play();
@@ -123,7 +123,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             bullet = Instantiate(bulletPrefab, spawnPointE.transform.position, Quaternion.identity);
 
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(1,1).normalized * bulletSpeed * Time.deltaTime;
+            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(1, 1).normalized * bulletSpeed * Time.deltaTime;
         }
         else if (direction == FireDirection.upleft)
         {
@@ -151,21 +151,14 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            //float moveHorizontal = Input.GetAxis("Horizontal");
-
-            //float moveVertical = Input.GetAxis("Vertical");
-
-            //Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-
-            //rb2d.AddForce(movement * speed);
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
-            //Vector3 movement = new Vector3(horizontal, vertical, 0f);
-
-            //transform.position += movement * Time.deltaTime * moveSpeed;
-
-            rb2d.velocity = new Vector2(horizontal, vertical) * Time.fixedDeltaTime * moveSpeed;
+            //makes movement slower, if player moves diagonally
+            if (horizontal != 0f && vertical != 0f)
+                rb2d.velocity = new Vector2(horizontal * 0.75f, vertical * 0.75f) * Time.fixedDeltaTime * moveSpeed;
+            else
+                rb2d.velocity = new Vector2(horizontal, vertical) * Time.fixedDeltaTime * moveSpeed;
         }
     }
 }

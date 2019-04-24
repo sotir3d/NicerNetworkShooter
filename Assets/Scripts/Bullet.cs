@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
+    private void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.CompareTag("Tilemap"))
         {
@@ -27,9 +27,31 @@ public class Bullet : MonoBehaviour
         if (health != null)
         {
             health.TakeDamage(5);
-            
             if (!hit.GetComponent<PlayerManager>().isLocalPlayer)
+            {
                 DestroyBullet();
+            }
         }
     }
+
+//    void OnCollisionEnter2D(Collision2D coll)
+//    {
+//        if (coll.gameObject.CompareTag("Tilemap"))
+//        {
+//            Debug.Log("Getroffen");
+//            Destroy(gameObject);
+//        }
+//
+//        GameObject hit = coll.gameObject;
+//        PlayerHealth health = hit.GetComponent<PlayerHealth>();
+//        if (health != null)
+//        {
+//            if (!hit.GetComponent<PlayerManager>().isLocalPlayer)
+//            {
+//                health.TakeDamage(5);
+//
+//                DestroyBullet();
+//            }
+//        }
+//    }
 }
